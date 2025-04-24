@@ -2,6 +2,7 @@ package org.quiz_proj.quiz.service.test;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.quiz_proj.quiz.dto.QuestionDto;
+import org.quiz_proj.quiz.dto.TestDetailsDto;
 import org.quiz_proj.quiz.dto.TestDto;
 import org.quiz_proj.quiz.models.Question;
 import org.quiz_proj.quiz.models.Test;
@@ -53,6 +54,21 @@ public class TestServiceImpl implements TestService {
     public List<TestDto> getAllTests() {
         return testRepository.findAll().stream().peek(test -> test.setTime(test.getQuestions().size() * test.getTime())).collect(Collectors.toList())
                 .stream().map(Test::getDto).collect(Collectors.toList());
+    }
+
+    public TestDetailsDto getAllQuestionsByTest(Long id){
+        Optional<Test> optionalTest = testRepository.findById(id);
+        TestDetailsDto testDetailsDto = new TestDetailsDto();
+        if(optionalTest.isPresent()){
+            TestDto testDto = optionalTest.get().getDto();
+            testDto.setTime(optionalTest.get().getTime() * optionalTest.get().getQuestions().size());
+
+            testDetailsDto.setTestDto(testDto);
+            testDetailsDto.setQuestions(optionalTest.get().getQuestions().stream().map(Question::getQuestionDto).toList());
+            return testDetailsDto;
+        }
+        return testDetailsDto;
+
     }
 
 }
