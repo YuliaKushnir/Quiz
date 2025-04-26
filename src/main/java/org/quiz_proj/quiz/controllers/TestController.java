@@ -63,4 +63,22 @@ public class TestController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/test-result")
+    public ResponseEntity<?> getAllTestResults(){
+        try {
+            return new ResponseEntity<>(testService.getAllTestsResults(), HttpStatus.OK);
+        } catch(Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/test-result/{id}")
+    public ResponseEntity<?> getAllTestResultsByUserId(@PathVariable Long id){
+        try {
+            return new ResponseEntity<>(testService.getAllTestResultsByUserId(id), HttpStatus.OK);
+        } catch(Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
