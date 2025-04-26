@@ -1,6 +1,7 @@
 package org.quiz_proj.quiz.controllers;
 
 import org.quiz_proj.quiz.dto.QuestionDto;
+import org.quiz_proj.quiz.dto.SubmitTestDto;
 import org.quiz_proj.quiz.dto.TestDto;
 import org.quiz_proj.quiz.service.test.TestService;
 import org.quiz_proj.quiz.service.test.TestServiceImpl;
@@ -51,6 +52,15 @@ public class TestController {
             return new ResponseEntity<>(testService.getAllQuestionsByTest(id), HttpStatus.OK);
         } catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/submit-test")
+    public ResponseEntity<?> submitTest(@RequestBody SubmitTestDto dto){
+        try {
+            return new ResponseEntity<>(testService.submitTest(dto), HttpStatus.OK);
+        } catch(Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
